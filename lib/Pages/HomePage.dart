@@ -39,21 +39,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    NotificationService ns = NotificationService();
-    ns.instantNofitication();
+    // NotificationService ns = NotificationService();
+    // ns.instantNofitication();
 
     return Scaffold(
         drawer: const NavBar(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          elevation: 0,
           title: Text(
             'Dashboard',
-            style: TextStyle(fontSize: 28, color: Colors.white),
+            style: TextStyle(fontSize: 26, color: Colors.white),
           ),
         ),
-        backgroundColor: Colors.black38,
-        body: SafeArea(
-          child: Expanded(
+        backgroundColor:  Color(0xff09023f),
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff09023f),
+                  Color(0xff10074d),
+                  Color(0xff251c73),
+                  Color(0xff352c7e),
+                  Color(0xffcac5f3),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter
+              )
+            ),
             child: Column(
               children: [
                 const SizedBox(
@@ -204,118 +219,127 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 9,
                 ),
                 //Temp,Gear,Mileage
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 300,
-                        height: 90,
-                        decoration: BoxDecoration(
-                          color: Colors.white12,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 10.0),
-                          child: Column(
-                            children: [
-                              Consumer<VehicleData>(builder: (_, data, __) {
-                                if (data.size == 0) {
-                                  return CircularProgressIndicator();
-                                }
-                                return Container(
-                                  child: SfLinearGauge(
-                                    markerPointers: [
-                                      LinearShapePointer(
-                                          value: double.parse(
-                                              data.vehicleList.last.speed),
-                                          color: Colors.white)
-                                    ],
-                                    minorTicksPerInterval: 2,
-                                    useRangeColorForAxis: true,
-                                    animateAxis: true,
-                                    axisTrackStyle:
-                                        LinearAxisTrackStyle(thickness: 1),
-                                    ranges: const <LinearGaugeRange>[
-                                      LinearGaugeRange(
-                                        startValue: 0,
-                                        endValue: 33,
-                                        position: LinearElementPosition.inside,
-                                        color: Color(0xffF45656),
-                                      ),
-                                      LinearGaugeRange(
-                                        startValue: 33,
-                                        endValue: 66,
-                                        position: LinearElementPosition.cross,
-                                        color: Color(0xffFFC93E),
-                                      ),
-                                      LinearGaugeRange(
-                                        startValue: 66,
-                                        endValue: 100,
-                                        position: LinearElementPosition.outside,
-                                        color: Color(0xff0DC9AB),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              }),
-                              const Text('Fuel',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.white)),
-                            ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      ChangeNotifierProvider<VehicleData>.value(
+                          value: VehicleData(), child: FuelPage()),
+                    ));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 300,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            color: Colors.white12,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 10.0),
+                            child: Column(
+                              children: [
+                                Consumer<VehicleData>(builder: (_, data, __) {
+                                  if (data.size == 0) {
+                                    return CircularProgressIndicator();
+                                  }
+                                  return Container(
+                                    child: SfLinearGauge(
+                                      markerPointers: [
+                                        LinearShapePointer(
+                                            value: double.parse(
+                                                data.vehicleList.last.speed),
+                                            color: Colors.white)
+                                      ],
+                                      minorTicksPerInterval: 2,
+                                      useRangeColorForAxis: true,
+                                      animateAxis: true,
+                                      axisTrackStyle:
+                                          LinearAxisTrackStyle(thickness: 1),
+                                      ranges: const <LinearGaugeRange>[
+                                        LinearGaugeRange(
+                                          startValue: 0,
+                                          endValue: 33,
+                                          position: LinearElementPosition.inside,
+                                          color: Color(0xfffa0707),
+                                        ),
+                                        LinearGaugeRange(
+                                          startValue: 33,
+                                          endValue: 66,
+                                          position: LinearElementPosition.inside,
+                                          color: Color(0xffFFC93E),
+                                        ),
+                                        LinearGaugeRange(
+                                          startValue: 66,
+                                          endValue: 100,
+                                          position: LinearElementPosition.inside,
+                                          color: Color(0xff3bef5a),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }),
+                                const Text('Fuel',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.white)),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      // SafeArea(
-                      //   child: Container(
-                      //     width: 100,
-                      //     height: 50,
-                      //     decoration: BoxDecoration(
-                      //       color: Colors.white12,
-                      //       borderRadius: BorderRadius.circular(12),
-                      //     ),
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.symmetric(
-                      //           horizontal: 20.0, vertical: 15.0),
-                      //       child: Text(
-                      //         'Gear',
-                      //         style: TextStyle(fontSize: 16, color: Colors.white),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  MileagePage()));
-                        },
-                        child: SafeArea(
-                          child: Container(
-                            width: 300,
-                            height: 70,
-                            decoration: BoxDecoration(
-                              color: Colors.white12,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 11.0),
-                              child: Text(
-                                'Temp',
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        // SafeArea(
+                        //   child: Container(
+                        //     width: 100,
+                        //     height: 50,
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.white12,
+                        //       borderRadius: BorderRadius.circular(12),
+                        //     ),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.symmetric(
+                        //           horizontal: 20.0, vertical: 15.0),
+                        //       child: Text(
+                        //         'Gear',
+                        //         style: TextStyle(fontSize: 16, color: Colors.white),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    MileagePage()));
+                          },
+                          child: SafeArea(
+                            child: Container(
+                              width: 300,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                color: Colors.white12,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 11.0),
+                                child: Text(
+                                  'Temp',
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
